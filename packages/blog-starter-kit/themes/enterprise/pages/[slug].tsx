@@ -141,7 +141,7 @@ const Post = ({ publication, post }: PostProps) => {
 				</div>
 			)}
 			<AboutAuthor />
-			{!post.preferences.disableComments && post.comments.totalDocuments > 0 && <PostComments />}
+			{!post.preferences.disableComments && (post.comments.edges?.length ?? 0) > 0 && <PostComments />}
 			<Subscribe />
 		</>
 	);

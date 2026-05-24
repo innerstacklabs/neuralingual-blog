@@ -22,7 +22,11 @@ query MorePostsByPublication($host: String!, $first: Int!, $after: String) {
 				node {
 					...Post
 					comments(first: 0) {
-						totalDocuments
+						edges {
+							node {
+								id
+							}
+						}
 					}
 				}
 			}
