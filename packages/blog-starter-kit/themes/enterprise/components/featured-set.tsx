@@ -13,6 +13,7 @@ interface FrameworkSource {
 interface FrameworkPrinciple {
 	name: string;
 	description: string;
+	citation?: string;
 }
 
 interface FrameworkGrouping {
@@ -72,7 +73,11 @@ function isFrameworkSource(item: unknown): item is FrameworkSource {
 function isFrameworkPrinciple(item: unknown): item is FrameworkPrinciple {
 	if (!item || typeof item !== 'object') return false;
 	const obj = item as Record<string, unknown>;
-	return typeof obj.name === 'string' && typeof obj.description === 'string';
+	return (
+		typeof obj.name === 'string' &&
+		typeof obj.description === 'string' &&
+		(obj.citation === undefined || typeof obj.citation === 'string')
+	);
 }
 
 function parseFramework(raw: unknown): Framework | null {
@@ -318,6 +323,11 @@ function FrameworkContent({ framework }: { framework: Framework }) {
 								<span className="font-medium text-slate-800 dark:text-neutral-100">{p.name}</span>
 								{' — '}
 								{p.description}
+								{p.citation && (
+									<span className="ml-1 text-xs italic text-slate-400 dark:text-neutral-500">
+										[{p.citation}]
+									</span>
+								)}
 							</li>
 						))}
 					</ul>
