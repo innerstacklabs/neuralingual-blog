@@ -1,110 +1,83 @@
-import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import { useState } from 'react';
-import { PublicationNavbarItem } from '../generated/graphql';
-import { Button } from './button';
 import { Container } from './container';
-import { useAppContext } from './contexts/appContext';
-import HamburgerSVG from './icons/svgs/HamburgerSVG';
-import { PublicationLogo } from './publication-logo';
-import PublicationSidebar from './sidebar';
+import { RisingNSVG } from './icons';
 
-function hasUrl(
-	navbarItem: PublicationNavbarItem,
-): navbarItem is PublicationNavbarItem & { url: string } {
-	return !!navbarItem.url && navbarItem.url.length > 0;
-}
+const NAV_LINKS = [
+	{ label: 'App Store', href: 'https://apps.apple.com/app/id6758531476' },
+	{ label: 'Newsletter', href: 'https://buttondown.com/daveremy' },
+];
 
 export const Header = () => {
-	const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || '/';
-	const [isSidebarVisible, setIsSidebarVisible] = useState<boolean>();
-	const { publication } = useAppContext();
-	const navbarItems = publication.preferences.navbarItems.filter(hasUrl);
-	const visibleItems = navbarItems.slice(0, 3);
-	const hiddenItems = navbarItems.slice(3);
-
-	const toggleSidebar = () => {
-		setIsSidebarVisible((prevVisibility) => !prevVisibility);
-	};
-
-	const navList = (
-		<ul className="flex flex-row items-center gap-2 text-white">
-			{visibleItems.map((item) => (
-				<li key={item.url}>
-					<a
-						href={item.url}
-						target="_blank"
-						rel="noopener noreferrer"
-						className="transition-200 block max-w-[200px] truncate text-ellipsis whitespace-nowrap rounded-full p-2 transition-colors hover:bg-white hover:text-black dark:hover:bg-neutral-800 dark:hover:text-white"
-					>
-						{item.label}
-					</a>
-				</li>
-			))}
-
-			{hiddenItems.length > 0 && (
-				<li>
-					<DropdownMenu.Root>
-						<DropdownMenu.Trigger asChild>
-							<button className="transition-200 block rounded-full p-2 transition-colors hover:bg-white hover:text-black dark:hover:bg-neutral-800 dark:hover:text-white">
-								More
-							</button>
-						</DropdownMenu.Trigger>
-
-						<DropdownMenu.Portal>
-							<DropdownMenu.Content
-								className="w-48 rounded border border-gray-300 bg-white text-neutral-950 shadow-md dark:border-neutral-800 dark:bg-neutral-900 dark:text-white"
-								align="end"
-								sideOffset={5}
-							>
-								{hiddenItems.map((item) => (
-									<DropdownMenu.Item asChild key={item.url}>
-										<a
-											href={item.url}
-											target="_blank"
-											rel="noopener noreferrer"
-											className="transition-200 block truncate p-2 transition-colors hover:bg-slate-100 hover:text-black dark:hover:bg-neutral-800 dark:hover:text-white"
-										>
-											{item.label}
-										</a>
-									</DropdownMenu.Item>
-								))}
-							</DropdownMenu.Content>
-						</DropdownMenu.Portal>
-					</DropdownMenu.Root>
-				</li>
-			)}
-		</ul>
-	);
+	const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
 	return (
-		<header className="border-b bg-slate-950 py-10 dark:border-neutral-800 dark:bg-neutral-900">
-			<Container className="grid grid-cols-4 gap-5 px-5">
-				<div className="col-span-2 flex flex-1 flex-row items-center gap-2 lg:col-span-1">
-					<div className="lg:hidden">
-						<Button
-							type="outline"
-							label=""
-							icon={<HamburgerSVG className="h-5 w-5 stroke-current" />}
-							className="rounded-xl border-transparent !px-3 !py-2 text-white hover:bg-slate-900 dark:hover:bg-neutral-800"
-							onClick={toggleSidebar}
-						/>
+		<header className="border-b border-brand-dark/50 bg-brand-dark py-5">
+			<Container className="px-5">
+				<div className="flex items-center justify-between">
+					{/* Logo + Wordmark */}
+					<div className="flex items-center gap-3">
+						<a
+							href="https://neuralingual.com"
+							className="flex items-center gap-2"
+							aria-label="Neuralingual home"
+						>
+							<RisingNSVG width="28" height="28" />
+							<span className="text-lg font-bold tracking-tight">
+								<span className="text-brand-amber">Neura</span>
+								<span className="text-white">lingual</span>
+							</span>
+						</a>
+						<span className="text-sm text-slate-400">Blog</span>
+					</div>
 
-						{isSidebarVisible && (
-							<PublicationSidebar navbarItems={navbarItems} toggleSidebar={toggleSidebar} />
-						)}
-					</div>
-					<div className="hidden lg:block">
-						<PublicationLogo />
-					</div>
+					{/* Desktop nav */}
+					<nav className="hidden items-center gap-6 md:flex">
+						{NAV_LINKS.map((link) => (
+							<a
+								key={link.href}
+								href={link.href}
+								target="_blank"
+								rel="noopener noreferrer"
+								className="text-sm text-slate-300 transition-colors hover:text-brand-amber"
+							>
+								{link.label}
+							</a>
+						))}
+					</nav>
+
+					{/* Mobile hamburger */}
+					<button
+						className="flex items-center justify-center rounded-lg p-2 text-white hover:bg-white/10 md:hidden"
+						onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+						aria-label="Toggle menu"
+					>
+						<svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+							{mobileMenuOpen ? (
+								<path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+							) : (
+								<path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+							)}
+						</svg>
+					</button>
 				</div>
-				<div className="col-span-2 flex flex-row items-center justify-end gap-5 text-slate-300 lg:col-span-3">
-					<nav className="hidden lg:block">{navList}</nav>
-					<Button href={baseUrl} as="a" type="primary" label="Book a demo" />
-				</div>
+
+				{/* Mobile menu */}
+				{mobileMenuOpen && (
+					<nav className="mt-4 flex flex-col gap-3 border-t border-white/10 pt-4 md:hidden">
+						{NAV_LINKS.map((link) => (
+							<a
+								key={link.href}
+								href={link.href}
+								target="_blank"
+								rel="noopener noreferrer"
+								className="text-sm text-slate-300 transition-colors hover:text-brand-amber"
+							>
+								{link.label}
+							</a>
+						))}
+					</nav>
+				)}
 			</Container>
-			<div className="mt-5 flex justify-center lg:hidden">
-				<PublicationLogo />
-			</div>
 		</header>
 	);
 };

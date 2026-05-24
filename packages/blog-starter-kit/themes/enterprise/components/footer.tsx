@@ -1,147 +1,50 @@
-import Link from 'next/link';
 import { Container } from './container';
-import { useAppContext } from './contexts/appContext';
-import { SocialLinks } from './social-links';
+import { RisingNSVG } from './icons';
+
+const FOOTER_LINKS = [
+	{ label: 'App Store', href: 'https://apps.apple.com/app/id6758531476' },
+	{ label: 'Newsletter', href: 'https://buttondown.com/daveremy' },
+	{ label: 'Privacy', href: 'https://neuralingual.com/privacy' },
+	{ label: 'Terms', href: 'https://neuralingual.com/terms' },
+	{ label: 'Support', href: 'https://neuralingual.com/support' },
+];
 
 export const Footer = () => {
-	const { publication } = useAppContext();
-	const PUBLICATION_LOGO = publication.preferences.logo;
 	return (
-		<footer className="border-t py-20 dark:border-neutral-800 ">
+		<footer className="border-t border-brand-dark/50 bg-brand-dark py-12">
 			<Container className="px-5">
-				{PUBLICATION_LOGO ? (
-					<div className="mb-20 flex w-full flex-row justify-center">
-						<Link
-							href={'/'}
-							aria-label={`${publication.title} home page`}
-							className="flex flex-row items-center gap-5"
-						>
-							<img className="block w-40" src={PUBLICATION_LOGO} alt={publication.title} />
-						</Link>
+				<div className="flex flex-col items-center gap-6 text-center">
+					{/* Logo + wordmark */}
+					<div className="flex items-center gap-2">
+						<RisingNSVG width="24" height="24" />
+						<span className="text-lg font-bold tracking-tight">
+							<span className="text-brand-amber">Neura</span>
+							<span className="text-white">lingual</span>
+						</span>
 					</div>
-				) : (
-					<p className="mb-20 text-center text-xl font-semibold text-slate-900 dark:text-slate-50 md:text-4xl">
-						{publication.title}
+
+					<p className="text-sm text-slate-400">
+						Built by Dave Remy at Inner Stack Labs
 					</p>
-				)}
-				<div className="grid w-full grid-cols-3 gap-5 md:grid-cols-6 lg:grid-cols-5">
-					<div className="col-span-1 grid grid-cols-4 gap-5 md:col-span-4 lg:col-span-3">
-						<div className="col-span-full md:col-span-2 lg:col-span-1">
-							<p className="mb-2 font-semibold text-slate-600 dark:text-neutral-200">
-								Stay in touch
-							</p>
-							<ul className="flex flex-col gap-1 text-slate-700 dark:text-neutral-300">
-								<li>
-									<a href="#" className="hover:underline">
-										Contact us
-									</a>
-								</li>
-								<li>
-									<a href="#" className="hover:underline">
-										Book a demo
-									</a>
-								</li>
-								<li>
-									<a href="#" className="hover:underline">
-										Newsletter
-									</a>
-								</li>
-								<li>
-									<a href="#" className="hover:underline">
-										Slack
-									</a>
-								</li>
-							</ul>
-						</div>
-						<div className="col-span-full md:col-span-2 lg:col-span-1">
-							<p className="mb-2 font-semibold text-slate-600 dark:text-neutral-200">Resources</p>
-							<ul className="flex flex-col gap-1 text-slate-700 dark:text-neutral-300">
-								<li>
-									<a href="#" className="hover:underline">
-										Community
-									</a>
-								</li>
-								<li>
-									<a href="#" className="hover:underline">
-										Use Cases
-									</a>
-								</li>
-								<li>
-									<a href="#" className="hover:underline">
-										Source Code
-									</a>
-								</li>
-								<li>
-									<a href="#" className="hover:underline">
-										Blog
-									</a>
-								</li>
-							</ul>
-						</div>
-						<div className="col-span-full md:col-span-2 lg:col-span-1">
-							<p className="mb-2 font-semibold text-slate-600 dark:text-neutral-200">Product</p>
-							<ul className="flex flex-col gap-1 text-slate-700 dark:text-neutral-300">
-								<li>
-									<a href="#" className="hover:underline">
-										Pricing
-									</a>
-								</li>
-								<li>
-									<a href="#" className="hover:underline">
-										Documentation
-									</a>
-								</li>
-								<li>
-									<a href="#" className="hover:underline">
-										Integrations
-									</a>
-								</li>
-								<li>
-									<a href="#" className="hover:underline">
-										Support
-									</a>
-								</li>
-							</ul>
-						</div>
-						<div className="col-span-1">
-							<p className="mb-2 font-semibold text-slate-600 dark:text-neutral-200">Other links</p>
-							<ul className="flex flex-col gap-1 text-slate-700 dark:text-neutral-300">
-								<li>
-									<a href="#" className="hover:underline">
-										Events
-									</a>
-								</li>
-								<li>
-									<a href="#" className="hover:underline">
-										Careers
-									</a>
-								</li>
-								<li>
-									<a href="#" className="hover:underline">
-										Newsroom
-									</a>
-								</li>
-								<li>
-									<a href="#" className="hover:underline">
-										About us
-									</a>
-								</li>
-							</ul>
-						</div>
-					</div>
-					<div className="col-span-2 flex flex-col items-end gap-5 text-right text-slate-600 dark:text-neutral-300 md:text-left">
-						<SocialLinks />
-						<p>&copy; 2023 Company Inc.</p>
-						<p>
-							<a href="#" className="hover:underline">
-								Privacy Policy
-							</a>{' '}
-							·{' '}
-							<a href="#" className="hover:underline">
-								Terms
+
+					{/* Links */}
+					<nav className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
+						{FOOTER_LINKS.map((link) => (
+							<a
+								key={link.href}
+								href={link.href}
+								target="_blank"
+								rel="noopener noreferrer"
+								className="text-sm text-slate-400 transition-colors hover:text-brand-amber"
+							>
+								{link.label}
 							</a>
-						</p>
-					</div>
+						))}
+					</nav>
+
+					<p className="text-xs text-slate-500">
+						&copy; {new Date().getFullYear()} Inner Stack Labs
+					</p>
 				</div>
 			</Container>
 		</footer>

@@ -21,8 +21,8 @@ export const Subscribe = () => {
 						align="end"
 						sideOffset={5}
 					>
-						<h3 className="mb-2 text-base font-semibold text-center text-primary-600">
-							Subscribe to our newsletter for updates and changelog.
+						<h3 className="mb-2 text-center text-base font-semibold text-primary-600">
+							Get new posts on affirmations, AI, and building in public.
 						</h3>
 						<SubscribeForm />
 					</Popover.Content>

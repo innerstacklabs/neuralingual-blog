@@ -6,6 +6,7 @@ import HashnodeSVG from './HashnodeSVG';
 import LinkedinSVG from './LinkedinSVG';
 import NewsletterPlusSVG from './NewsletterPlusSVG';
 import PlusCircleSVG from './PlusCircleSVG';
+import RisingNSVG from './RisingNSVG';
 import RssSVG from './RssSVG';
 import XSVG from './XSVG';
 
@@ -18,6 +19,7 @@ export {
 	LinkedinSVG,
 	NewsletterPlusSVG,
 	PlusCircleSVG,
+	RisingNSVG,
 	RssSVG,
 	XSVG,
 };
