@@ -1,44 +1,25 @@
-import { resizeImage } from '@starter-kit/utils/image';
 import Link from 'next/link';
-import { useAppContext } from './contexts/appContext';
-import { PublicationFragment } from '../generated/graphql';
-
-const getPublicationLogo = (publication: PublicationFragment, isSidebar?: boolean) => {
-	if (isSidebar) {
-		return publication.preferences.logo; // Always display light mode logo in sidebar
-	}
-	return publication.preferences.darkMode?.logo || publication.preferences.logo;
-}
 
 export const PublicationLogo = ({ isSidebar }: { isSidebar?: boolean }) => {
-	const { publication } = useAppContext();
-	const PUBLICATION_LOGO = getPublicationLogo(publication, isSidebar);
-
 	return (
 		<h1 className="relative w-full">
 			<Link
 				href={'/'}
-				aria-label={`${publication.title} blog home page`}
-				className="flex flex-row items-center justify-center gap-3"
+				aria-label="Neuralingual blog home page"
+				className="flex flex-row items-center justify-center gap-2"
 			>
-				{PUBLICATION_LOGO ? (
-					<>
-						<img
-							className="block w-32 shrink-0 md:w-40"
-							alt={publication.title}
-							src={resizeImage(PUBLICATION_LOGO, { w: 320, h: 80 })}
+				<svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+					<g transform="rotate(10, 12, 12)">
+						<path
+							d="M5 24 L5 9 L9 9 L15 17 L15 4 L17 0 L19 4 L19 21 L15 21 L9 13 L9 24 Z"
+							fill="#fbbf24"
 						/>
-						<span className="text-2xl font-semibold text-white md:text-3xl">Blog</span>
-					</>
-				) : (
-					<span
-						className={`block text-2xl font-semibold ${
-							isSidebar ? 'text-black dark:text-white' : 'text-white md:text-4xl'
-						}`}
-					>
-						{publication.title}
-					</span>
-				)}
+					</g>
+				</svg>
+				<span className="text-lg font-bold tracking-tight">
+					<span className="text-brand-amber">Neura</span>
+					<span className={isSidebar ? 'text-black dark:text-white' : 'text-white'}>lingual</span>
+				</span>
 			</Link>
 		</h1>
 	);
