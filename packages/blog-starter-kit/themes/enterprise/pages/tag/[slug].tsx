@@ -7,12 +7,11 @@ import { Header } from '../../components/header';
 import { Layout } from '../../components/layout';
 import { MorePosts } from '../../components/more-posts';
 import {
-	Post,
-	Publication,
 	TagPostsByPublicationDocument,
 	TagPostsByPublicationQuery,
 	TagPostsByPublicationQueryVariables,
 } from '../../generated/graphql';
+import type { Post, Publication } from '../../generated/graphql';
 
 type Props = {
 	posts: Post[];
