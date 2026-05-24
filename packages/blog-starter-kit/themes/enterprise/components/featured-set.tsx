@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 // ---------------------------------------------------------------------------
 // Types
@@ -180,7 +180,6 @@ function ErrorFallback({ shareId }: { shareId: string }) {
 
 export function FeaturedSet({ shareId, className }: FeaturedSetProps) {
 	const [state, setState] = useState<FetchState>({ status: 'loading' });
-	const abortRef = useRef<AbortController | null>(null);
 
 	useEffect(() => {
 		if (!shareId) {
@@ -189,7 +188,6 @@ export function FeaturedSet({ shareId, className }: FeaturedSetProps) {
 		}
 
 		const controller = new AbortController();
-		abortRef.current = controller;
 
 		const fetchData = async () => {
 			const url = `${NL_API_BASE}/shared/${encodeURIComponent(shareId)}`;
@@ -247,7 +245,14 @@ export function FeaturedSet({ shareId, className }: FeaturedSetProps) {
 	const { data } = state;
 	const { framework } = data;
 	const shareUrl = `${NL_SHARE_PAGE_BASE}/${encodeURIComponent(shareId)}`;
-	const hasFramework = framework && (framework.methodology || framework.principles?.length || framework.sources?.length);
+	const hasFramework = framework && (
+		framework.methodology ||
+		framework.principles?.length ||
+		framework.sources?.length ||
+		framework.groupings?.length ||
+		framework.takeaway ||
+		framework.practical_application
+	);
 
 	return (
 		<div className={`rounded-lg border border-slate-200 shadow-sm dark:border-neutral-700 ${className || ''}`}>
