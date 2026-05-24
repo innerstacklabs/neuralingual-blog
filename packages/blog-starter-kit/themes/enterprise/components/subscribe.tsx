@@ -1,33 +1,17 @@
-import * as Popover from '@radix-ui/react-popover';
-import { Button } from './button';
 import { NewsletterPlusSVG } from './icons';
-import { SubscribeForm } from './subscribe-form';
 
 export const Subscribe = () => {
 	return (
 		<div className="fixed z-50 bottom-10 right-10">
-			<Popover.Root>
-				<Popover.Trigger asChild>
-					<Button
-						label="Subscribe"
-						type="outline"
-						icon={<NewsletterPlusSVG className="w-5 h-5 fill-current" />}
-						className="!bg-white dark:!bg-neutral-950"
-					/>
-				</Popover.Trigger>
-				<Popover.Portal>
-					<Popover.Content
-						className="w-[350px] rounded-xl border bg-white p-5 shadow-xl dark:border-neutral-800 dark:bg-neutral-900 md:w-[500px]"
-						align="end"
-						sideOffset={5}
-					>
-						<h3 className="mb-2 text-center text-base font-semibold text-primary-600">
-							Get new posts on affirmations, AI, and building in public.
-						</h3>
-						<SubscribeForm />
-					</Popover.Content>
-				</Popover.Portal>
-			</Popover.Root>
+			<a
+				href="https://buttondown.com/daveremy"
+				target="_blank"
+				rel="noopener noreferrer"
+				className="flex items-center gap-2 rounded-full border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-900 shadow-lg transition-colors hover:bg-amber-50 hover:border-amber-300 dark:border-neutral-800 dark:bg-neutral-950 dark:text-white dark:hover:bg-neutral-800"
+			>
+				<NewsletterPlusSVG className="w-5 h-5 fill-current" />
+				Subscribe
+			</a>
 		</div>
 	);
 };
