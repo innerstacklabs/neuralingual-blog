@@ -1,21 +1,11 @@
 import { useState } from 'react';
 import { Container } from './container';
+import { RisingNSVG } from './icons';
 
 const NAV_LINKS = [
 	{ label: 'App Store', href: 'https://apps.apple.com/app/id6758531476' },
 	{ label: 'Newsletter', href: 'https://buttondown.com/daveremy' },
 ];
-
-const RisingNIcon = ({ className }: { className?: string }) => (
-	<svg width="28" height="28" viewBox="0 0 24 24" fill="none" className={className}>
-		<g transform="rotate(10, 12, 12)">
-			<path
-				d="M5 24 L5 9 L9 9 L15 17 L15 4 L17 0 L19 4 L19 21 L15 21 L9 13 L9 24 Z"
-				fill="#fbbf24"
-			/>
-		</g>
-	</svg>
-);
 
 export const Header = () => {
 	const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -31,7 +21,7 @@ export const Header = () => {
 							className="flex items-center gap-2"
 							aria-label="Neuralingual home"
 						>
-							<RisingNIcon />
+							<RisingNSVG width="28" height="28" />
 							<span className="text-lg font-bold tracking-tight">
 								<span className="text-brand-amber">Neura</span>
 								<span className="text-white">lingual</span>

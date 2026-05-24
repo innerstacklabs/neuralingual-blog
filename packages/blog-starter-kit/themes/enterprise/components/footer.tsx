@@ -1,4 +1,5 @@
 import { Container } from './container';
+import { RisingNSVG } from './icons';
 
 const FOOTER_LINKS = [
 	{ label: 'App Store', href: 'https://apps.apple.com/app/id6758531476' },
@@ -15,14 +16,7 @@ export const Footer = () => {
 				<div className="flex flex-col items-center gap-6 text-center">
 					{/* Logo + wordmark */}
 					<div className="flex items-center gap-2">
-						<svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-							<g transform="rotate(10, 12, 12)">
-								<path
-									d="M5 24 L5 9 L9 9 L15 17 L15 4 L17 0 L19 4 L19 21 L15 21 L9 13 L9 24 Z"
-									fill="#fbbf24"
-								/>
-							</g>
-						</svg>
+						<RisingNSVG width="24" height="24" />
 						<span className="text-lg font-bold tracking-tight">
 							<span className="text-brand-amber">Neura</span>
 							<span className="text-white">lingual</span>
