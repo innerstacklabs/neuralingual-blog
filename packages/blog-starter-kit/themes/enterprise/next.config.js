@@ -15,44 +15,55 @@ const getBasePath = () => {
 };
 
 const getRedirectionRules = async () => {
-	const query = gql`
-		query GetRedirectionRules {
-			publication(host: "${host}") {
-				id
-				redirectionRules {
-					source
-					destination
-					type
-				}
-			}
-		}
-  	`;
-
-	const data = await request(GQL_ENDPOINT, query);
-
-	if (!data.publication) {
-		throw 'Please ensure you have set the env var NEXT_PUBLIC_HASHNODE_PUBLICATION_HOST correctly.';
+	if (!GQL_ENDPOINT || !host) {
+		console.warn('[next.config.js] Missing GQL_ENDPOINT or host env vars — skipping redirects.');
+		return [];
 	}
 
-	const redirectionRules = data.publication.redirectionRules;
+	try {
+		const query = gql`
+			query GetRedirectionRules {
+				publication(host: "${host}") {
+					id
+					redirectionRules {
+						source
+						destination
+						type
+					}
+				}
+			}
+		`;
 
-	// convert to next.js redirects format
-	const redirects = redirectionRules
-		.filter((rule) => {
-			// Hashnode gives an option to set a wildcard redirect,
-			// but it doesn't work properly with Next.js
-			// the solution is to filter out all the rules with wildcard and use static redirects for now
-			return rule.source.indexOf('*') === -1;
-		})
-		.map((rule) => {
-			return {
-				source: rule.source,
-				destination: rule.destination,
-				permanent: rule.type === 'PERMANENT',
-			};
-		});
+		const data = await request(GQL_ENDPOINT, query);
 
-	return redirects;
+		if (!data.publication) {
+			console.warn('[next.config.js] No publication found — skipping redirects.');
+			return [];
+		}
+
+		const redirectionRules = data.publication.redirectionRules;
+
+		// convert to next.js redirects format
+		const redirects = redirectionRules
+			.filter((rule) => {
+				// Hashnode gives an option to set a wildcard redirect,
+				// but it doesn't work properly with Next.js
+				// the solution is to filter out all the rules with wildcard and use static redirects for now
+				return rule.source.indexOf('*') === -1;
+			})
+			.map((rule) => {
+				return {
+					source: rule.source,
+					destination: rule.destination,
+					permanent: rule.type === 'PERMANENT',
+				};
+			});
+
+		return redirects;
+	} catch (error) {
+		console.warn('[next.config.js] Failed to fetch redirection rules:', error.message || error);
+		return [];
+	}
 };
 
 /**
